@@ -21,7 +21,7 @@
 @endsection('js')
 
 @section('content')
-<h1 class="mt-3">{{$data->title}}</h1>
+<h1 class="mt-3">{{$data->title}}</h1><span class="ml-3">views:{{$views}}</span>
 <hr>
 <pre>{{$data->content}}</pre>
 

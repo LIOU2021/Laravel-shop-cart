@@ -98,6 +98,7 @@ Route::post('/reset-password', function (Request $request) {
 
 Route::apiResource('api/user',UserController::class);
 Route::apiResource('news',NewsController::class);
+Route::get("/hotNews",[NewsController::class,"sortByViewsOfArticle"]);
 Route::apiResource('api/product',ProductController::class)->middleware('auth');
 
 Route::get("product",[ProductController::class,"showPage"])->name('product');
