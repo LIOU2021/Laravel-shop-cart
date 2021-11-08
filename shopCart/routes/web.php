@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Redis;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,3 +106,9 @@ Route::get("product",[ProductController::class,"showPage"])->name('product');
 
 Route::apiResource('api/order',OrderController::class);
 Route::get('orders/{user_id}',[OrderController::class,'showFromUser']);
+
+Route::get('/publish', function () {
+    Redis::publish('test-channel', json_encode([
+        'name' => 'Adam Wathan'
+    ]));
+});
