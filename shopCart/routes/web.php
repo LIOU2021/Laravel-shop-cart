@@ -116,7 +116,3 @@ Route::get('/publish', function () {
     ]));
 });
 
-Route::get('/email',function(){
-    Mail::to('aa78789898tw@gmail.com')->send(new WelecomeMail());
-    return new WelecomeMail();
-});

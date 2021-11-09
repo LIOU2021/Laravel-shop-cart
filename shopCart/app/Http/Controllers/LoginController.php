@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WelecomeMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class LoginController extends Controller
 {
@@ -60,13 +62,13 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
         
-        $user->create([
+        $users = $user->create([
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=>Hash::make($request->password)
         ]);
 
-        // Mail::to($user->email)->send(new);
+        Mail::to($users->email)->send(new WelecomeMail($users));
 
         return redirect()->route('login')->with('status','帳戶註冊成功 ! ');
     }

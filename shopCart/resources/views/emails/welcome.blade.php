@@ -1,8 +1,7 @@
 @component('mail::message')
-# Introduction
-# hello from frey123
+{{$name}} 您好 :
 
-The body of your message.
+您成功使用 {{$email}} 註冊了我們的會員。
 
 Thanks,<br>
 {{ config('app.name') }}
