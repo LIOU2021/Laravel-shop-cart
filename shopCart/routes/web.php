@@ -5,11 +5,14 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Mail\OrderMail;
+use App\Mail\WelecomeMail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Redis;
 
@@ -111,4 +114,9 @@ Route::get('/publish', function () {
     Redis::publish('test-channel', json_encode([
         'name' => 'Adam Wathan'
     ]));
+});
+
+Route::get('/email',function(){
+    Mail::to('aa78789898tw@gmail.com')->send(new WelecomeMail());
+    return new WelecomeMail();
 });

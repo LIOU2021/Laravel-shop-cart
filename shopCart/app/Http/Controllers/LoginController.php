@@ -66,6 +66,8 @@ class LoginController extends Controller
             'password'=>Hash::make($request->password)
         ]);
 
+        // Mail::to($user->email)->send(new);
+
         return redirect()->route('login')->with('status','帳戶註冊成功 ! ');
     }
 }
