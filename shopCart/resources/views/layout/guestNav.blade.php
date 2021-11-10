@@ -8,6 +8,7 @@
                 <a class="nav-item nav-link" href="{{route('home')}}">Home <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" href="{{route('product')}}">商品</a>
                 <a class="nav-item nav-link" href="/news">最新消息</a>
+                <a class="nav-item nav-link" href="/contactUs">聯絡我們</a>
 
                 @if(Auth::check())
                 @include('layout.userNav')

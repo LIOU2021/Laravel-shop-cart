@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Mail\ContactUsMail;
 use App\Mail\OrderMail;
 use App\Mail\WelecomeMail;
 use Illuminate\Support\Facades\Route;
@@ -110,8 +112,16 @@ Route::get("product",[ProductController::class,"showPage"])->name('product');
 Route::apiResource('api/order',OrderController::class);
 Route::get('orders/{user_id}',[OrderController::class,'showFromUser']);
 
+Route::view('/contactUs','contactUs');
+Route::post('/contactUs',[ContactController::class,'sendMessage']);
+
 // Route::get('/publish', function () {
-//     Redis::publish('createOrder', json_encode([
+//     Redis::publish('contactUs', json_encode([
 //         'name' => 'Adam Wathan'
 //     ]));
+// });
+
+// Route::get('test',function(){
+//     Mail::to(env('MAIL_USERNAME'))->send(new ContactUsMail());
+//     echo env('MAIL_USERNAME');
 // });
