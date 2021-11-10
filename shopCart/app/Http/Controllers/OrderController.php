@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CancelOrderMail;
+use App\Mail\CreateOrderMail;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -33,7 +37,9 @@ class OrderController extends Controller
             'qty' => 'required|integer',
         ]);
 
-        Order::create($request->all());
+        $order =  Order::create($request->all());
+        
+        Mail::to(Auth::user()->email)->send(new CreateOrderMail($order));
     }
 
     public function showFromUser($user_id)
@@ -81,5 +87,6 @@ class OrderController extends Controller
     public function destroy($id)
     {
         Order::destroy($id);
+        Mail::to(Auth::user()->email)->send(new CancelOrderMail($id));
     }
 }
