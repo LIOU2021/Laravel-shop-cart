@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title','磣品中心')
+@section('title','商品中心')
 
 @section('js')
 <script>
