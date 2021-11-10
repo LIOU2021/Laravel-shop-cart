@@ -110,9 +110,8 @@ Route::get("product",[ProductController::class,"showPage"])->name('product');
 Route::apiResource('api/order',OrderController::class);
 Route::get('orders/{user_id}',[OrderController::class,'showFromUser']);
 
-Route::get('/publish', function () {
-    Redis::publish('test-channel', json_encode([
-        'name' => 'Adam Wathan'
-    ]));
-});
-
+// Route::get('/publish', function () {
+//     Redis::publish('createOrder', json_encode([
+//         'name' => 'Adam Wathan'
+//     ]));
+// });

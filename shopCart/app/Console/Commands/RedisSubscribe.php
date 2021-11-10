@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\OrderNotifyMail;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
 
 class RedisSubscribe extends Command
@@ -39,13 +41,12 @@ class RedisSubscribe extends Command
      */
     public function handle()
     {
-        Redis::subscribe(['test-channel'], function ($message) {
-            
-            echo $message;
-        });
+        Redis::subscribe(['createOrder'], function ($message) {
+            $mail = env('MAIL_USERNAME');
+            $message = json_decode($message, true);
+            Mail::to($mail)->send(new OrderNotifyMail($message['orderId']));
 
-        // Redis::connection()->subscribe('test-channel',function($msg){
-        //     echo $msg;
-        // });
+            echo "新訂單 ID : " . $message['orderId'].", ";
+        });
     }
 }

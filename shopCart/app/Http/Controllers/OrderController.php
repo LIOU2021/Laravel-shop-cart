@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redis;
 
 class OrderController extends Controller
 {
@@ -40,6 +41,10 @@ class OrderController extends Controller
         $order =  Order::create($request->all());
         
         Mail::to(Auth::user()->email)->send(new CreateOrderMail($order));
+
+        Redis::publish('createOrder', json_encode([
+            'orderId' => $order->id,
+        ]));
     }
 
     public function showFromUser($user_id)
