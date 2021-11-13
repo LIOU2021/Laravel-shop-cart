@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ServerReport;
 use App\Mail\WelecomeMail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,12 +29,11 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            if(Auth::user()->admin){
+            if (Auth::user()->admin) {
                 return redirect()->route('admin.center');
-            }else{
+            } else {
                 return redirect()->route('home');
             }
-            
         }
 
         return back()->withErrors([
@@ -54,22 +54,27 @@ class LoginController extends Controller
     }
 
     //sign up
-    public function signUp(Request $request,User $user)
+    public function signUp(Request $request, User $user)
     {
         $request->validate([
             'name' => ['required'],
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-        
+
         $users = $user->create([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'password'=>Hash::make($request->password)
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
         ]);
 
-        Mail::to($users->email)->send(new WelecomeMail($users));
+        // Mail::to($users->email)->send(new WelecomeMail($users));
 
-        return redirect()->route('login')->with('status','帳戶註冊成功 ! ');
+        if (isset($users)) {
+            $job = new ServerReport($users);
+            dispatch($job->delay(5));//delay 5 second
+        };
+
+        return redirect()->route('login')->with('status', '帳戶註冊成功 ! ');
     }
 }
